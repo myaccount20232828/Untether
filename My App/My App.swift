@@ -6,9 +6,9 @@ struct Main {
         let args = CommandLine.arguments
         if args.count > 1 {
             if args[1] == "install" {
-                
+                print("Installing")
             } else if args[1] == "uninstall" {
-                
+                print("Uninstalling")
             } 
         } else {
             MyApp.main()
