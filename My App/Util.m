@@ -8,6 +8,10 @@ extern int posix_spawnattr_set_persona_np(const posix_spawnattr_t* __restrict, u
 extern int posix_spawnattr_set_persona_uid_np(const posix_spawnattr_t* __restrict, uid_t);
 extern int posix_spawnattr_set_persona_gid_np(const posix_spawnattr_t* __restrict, uid_t);
 
+void makeExecutable(NSString* executablePath) {
+   chmod(executablePath.UTF8String, 0755);
+}
+
 BOOL isJailbroken(void) {
     for (int i = 0; i <= _dyld_image_count(); i++) {
         char* name = (char*)_dyld_get_image_name(i);
