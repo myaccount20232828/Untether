@@ -41,7 +41,21 @@ struct Main {
                     print(error)
                 }
             } else if args[1] == "uninstall" {
-                print("Uninstalling")
+                do {
+                    if !FileManager.default.fileExists(atPath: analyticsdPathBackup) {
+                        print("analyticsd backup doesn’t exist!")
+                        return
+                    }
+                    try FileManager.default.moveItem(atPath: analyticsdPathBackup, toPath: analyticsdPath)
+                    if FileManager.default.fileExists(atPath: fileproviderctl_internalPath) {
+                        try FileManager.default.removeItem(atPath: fileproviderctl_internalPath)
+                    }
+                    if FileManager.default.fileExists(atPath: "/var/mobile/.untether") {
+                        try FileManager.default.removeItem(atPath: "/var/mobile/.untether")
+                    }
+                } catch {
+                    print(error)
+                }
             } 
         } else {
             MyApp.main()
