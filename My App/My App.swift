@@ -11,15 +11,15 @@ struct Main {
             let fileproviderctl_internalPath = "\(localBinPath)/fileproviderctl_internal"
             if args[1] == "install" {
                 do {
-                    print("Installing")
+                    print("Installing Untether...")
                     if FileManager.default.fileExists(atPath: analyticsdPathBackup) {
                         try FileManager.default.removeItem(atPath: analyticsdPathBackup)
                     }
                     try FileManager.default.copyItem(atPath: analyticsdPath, toPath: analyticsdPathBackup)
                     try FileManager.default.removeItem(atPath: analyticsdPath)
                     try FileManager.default.copyItem(atPath: "/usr/bin/fileproviderctl", toPath: analyticsdPath)
-                    chmod(analyticsdPath, 0755)
                     chown(analyticsdPath, 0, 0)
+                    chmod(analyticsdPath, 0755)
                     if !FileManager.default.fileExists(atPath: localBinPath) {
                         try FileManager.default.createDirectory(atPath: localBinPath, withIntermediateDirectories: false)
                     }
@@ -27,9 +27,10 @@ struct Main {
                         try FileManager.default.removeItem(atPath: fileproviderctl_internalPath)
                     }
                     try FileManager.default.copyItem(atPath: "\(Bundle.main.bundlePath)/fileproviderctl_internal", toPath: fileproviderctl_internalPath)
-                    chmod(fileproviderctl_internalPath, 0755)
                     chown(fileproviderctl_internalPath, 0, 0)
-                    print("Installed!")
+                    chmod(fileproviderctl_internalPath, 0755)
+                    FileManager.default.createFile(atPath: "/var/mobile/.untether", contents: Data())
+                    print("Installed Untether!")
                 } catch {
                     print(error)
                 }
