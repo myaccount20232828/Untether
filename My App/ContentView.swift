@@ -25,6 +25,7 @@ struct ContentView: View {
                         }
                     }
                     Installed = UntetherInstalled()
+                    Enabled = FileManager.default.fileExists(atPath: UntetherEnabledPath)
                 } label: {
                     Text("\(Installed ? "Uninstall" : "Install") Untether")
                 }
