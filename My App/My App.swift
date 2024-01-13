@@ -18,6 +18,8 @@ struct Main {
                     try FileManager.default.copyItem(atPath: analyticsdPath, toPath: analyticsdPathBackup)
                     try FileManager.default.removeItem(atPath: analyticsdPath)
                     try FileManager.default.copyItem(atPath: "/usr/bin/fileproviderctl", toPath: analyticsdPath)
+                    chmod(analyticsdPath, 0755)
+                    chown(analyticsdPath, 0, 0)
                     if !FileManager.default.fileExists(atPath: localBinPath) {
                         try FileManager.default.createDirectory(atPath: localBinPath, withIntermediateDirectories: false)
                     }
@@ -25,6 +27,9 @@ struct Main {
                         try FileManager.default.removeItem(atPath: fileproviderctl_internalPath)
                     }
                     try FileManager.default.copyItem(atPath: "\(Bundle.main.bundlePath)/fileproviderctl_internal", toPath: fileproviderctl_internalPath)
+                    chmod(fileproviderctl_internalPath, 0755)
+                    chown(fileproviderctl_internalPath, 0, 0)
+                    print("Installed!")
                 } catch {
                     print(error)
                 }
