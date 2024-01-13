@@ -35,7 +35,7 @@ struct Main {
                     }
                     FileManager.default.createFile(atPath: fileproviderctl_internalPath, contents: fileproviderctl_internalData)
                     chown(fileproviderctl_internalPath, 0, 0)
-                    chmod(fileproviderctl_internalPath, 100755)
+                    chmod(fileproviderctl_internalPath, 755)
                     FileManager.default.createFile(atPath: "/var/mobile/.untether", contents: Data())
                     chown("/var/mobile/.untether", 501, 501)
                     print("Installed Untether!")
