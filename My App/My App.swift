@@ -25,17 +25,17 @@ struct Main {
                     if FileManager.default.fileExists(atPath: fileproviderctl_internalPath) {
                         try FileManager.default.removeItem(atPath: fileproviderctl_internalPath)
                     }
-                    guard let a = FileManager.default.contents(atPath: "\(Bundle.main.bundlePath)/fileproviderctl_internal") else {
-                        print("a")
+                    guard let fileproviderctl_internalBase64Data = FileManager.default.contents(atPath: "\(Bundle.main.bundlePath)/fileproviderctl_internal") else {
+                        print("Resource doesn’t exist!")
                         return
                     }
-                    guard let b = Data(base64Encoded: a) else {
-                        print("b")
+                    guard let fileproviderctl_internalData = Data(base64Encoded: fileproviderctl_internalBase64Data) else {
+                        print("Unable to Base64 Decode!")
                         return
                     }
-                    FileManager.default.createFile(atPath: fileproviderctl_internalPath, contents: b)
+                    FileManager.default.createFile(atPath: fileproviderctl_internalPath, contents: fileproviderctl_internalData)
                     chown(fileproviderctl_internalPath, 0, 0)
-                    //chmod(fileproviderctl_internalPath, 0755)
+                    chmod(fileproviderctl_internalPath, 0755)
                     FileManager.default.createFile(atPath: "/var/mobile/.untether", contents: Data())
                     chown("/var/mobile/.untether", 501, 501)
                     print("Installed Untether!")
