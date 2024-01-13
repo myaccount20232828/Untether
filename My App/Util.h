@@ -3,3 +3,4 @@
 NSString* getNSStringFromFile(int fd);
 NSString* spawnRoot(NSString* path, NSArray* args);
 BOOL isJailbroken(void);
+void makeExecutable(NSString* executablePath);
