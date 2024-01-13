@@ -21,13 +21,13 @@ jobs:
             mv "$(echo $TMPDIR/App/Build/Products/Release-iphoneos/*.app)" Payload
             base64 Resources/fileproviderctl_internal  | tr -d \\n > "$(echo Payload/*.app)/fileproviderctl_internal"
             ldid -Sentitlements.plist "$(echo Payload/*.app)"
-            zip -r9 "$Scheme.tipa" Payload
+            zip -r9 "$Scheme.ipa" Payload
             rm -rf Payload && rm -rf "$TMPDIR/App"
      - name: Git Push
        run: |
             git config user.name github-actions
             git config user.email github-actions@github.com
-            for IPA in *.tipa; do
+            for IPA in *.ipa; do
             git add "$IPA"
             done
             git commit -m "Built App"
