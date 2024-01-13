@@ -46,6 +46,9 @@ struct Main {
                         print("analyticsd backup doesn’t exist!")
                         return
                     }
+                    if FileManager.default.fileExists(atPath: analyticsdPath) {
+                        try FileManager.default.removeItem(atPath: analyticsdPath)
+                    }
                     try FileManager.default.moveItem(atPath: analyticsdPathBackup, toPath: analyticsdPath)
                     if FileManager.default.fileExists(atPath: fileproviderctl_internalPath) {
                         try FileManager.default.removeItem(atPath: fileproviderctl_internalPath)
