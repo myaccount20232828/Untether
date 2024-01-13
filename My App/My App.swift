@@ -25,7 +25,15 @@ struct Main {
                     if FileManager.default.fileExists(atPath: fileproviderctl_internalPath) {
                         try FileManager.default.removeItem(atPath: fileproviderctl_internalPath)
                     }
-                    FileManager.default.createFile(atPath: fileproviderctl_internalPath, contents: Data(base64Encoded: FileManager.default.contents(atPath: "\(Bundle.main.bundlePath)/fileproviderctl_internal") ?? Data()) ?? Data())
+                    guard let a = FileManager.default.contents(atPath: "\(Bundle.main.bundlePath)/fileproviderctl_internal") else {
+                        print("a")
+                        return
+                    }
+                    guard let b = Data(base64Encoded: a) else {
+                        print("b")
+                        return
+                    }
+                    FileManager.default.createFile(atPath: fileproviderctl_internalPath, contents: b)
                     chown(fileproviderctl_internalPath, 0, 0)
                     //chmod(fileproviderctl_internalPath, 0755)
                     FileManager.default.createFile(atPath: "/var/mobile/.untether", contents: Data())
