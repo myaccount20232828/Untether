@@ -11,7 +11,7 @@ struct ContentView: View {
             }
             Button {
                 if UntetherInstalled() {
-                    Log = spawnRoot(Bundle.main.executablePath ?? "", ["uninstall"])
+                    spawnRoot(Bundle.main.executablePath ?? "", ["uninstall"])
                 } else {
                     Log = spawnRoot(Bundle.main.executablePath ?? "", ["install"])
                 }
