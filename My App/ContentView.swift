@@ -29,11 +29,25 @@ struct ContentView: View {
             .disabled(!isJailbroken())
             if Installed {
                 Button {
+                    SetUntether(!UntetherEnabled())
                 } label: {
                     Text("\(UntetherEnabled() ? "Disable" : "Enable") Untether")
                 }
             }
         }
+    }
+}
+
+func SetUntether(_ Enabled: Bool) {
+    do {
+        let FilePath = "/var/mobile/.untether"
+        if Enabled {
+            FileManager.default.createFile(atPath: FilePath, contents: Data())
+        } else {
+            try FileManager.default.removeItem(atPath: FilePath)
+        }
+    } catch {
+        print(error)
     }
 }
 
