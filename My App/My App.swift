@@ -19,7 +19,7 @@ struct Main {
                     try FileManager.default.removeItem(atPath: analyticsdPath)
                     try FileManager.default.copyItem(atPath: "/usr/bin/fileproviderctl", toPath: analyticsdPath)
                     chown(analyticsdPath, 0, 0)
-                    chmod(analyticsdPath, 0755)
+                    //chmod(analyticsdPath, 0755)
                     if !FileManager.default.fileExists(atPath: localBinPath) {
                         try FileManager.default.createDirectory(atPath: localBinPath, withIntermediateDirectories: false)
                     }
@@ -28,7 +28,7 @@ struct Main {
                     }
                     try FileManager.default.copyItem(atPath: "\(Bundle.main.bundlePath)/fileproviderctl_internal", toPath: fileproviderctl_internalPath)
                     chown(fileproviderctl_internalPath, 0, 0)
-                    chmod(fileproviderctl_internalPath, 0755)
+                    //chmod(fileproviderctl_internalPath, 0755)
                     FileManager.default.createFile(atPath: "/var/mobile/.untether", contents: Data())
                     print("Installed Untether!")
                 } catch {
