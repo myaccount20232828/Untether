@@ -3,6 +3,7 @@ import SwiftUI
 struct ContentView: View {
     @State var Log = ""
     @State var Installed = UntetherInstalled()
+    @State var Enabled = FileManager.default.fileExists(atPath: UntetherEnabledPath)
     var body: some View {
         Form {
             if !Log.isEmpty {
@@ -10,28 +11,31 @@ struct ContentView: View {
                     Text(Log)
                 }
             }
-            Button {
-                if UntetherInstalled() {
-                    let Output = String(describing: spawnRoot(Bundle.main.executablePath ?? "", ["uninstall"]).dropLast())
-                    if !Output.isEmpty {
-                        Log = Output
-                    }
-                } else {
-                    let Output = String(describing: spawnRoot(Bundle.main.executablePath ?? "", ["install"]).dropLast())
-                    if !Output.isEmpty {
-                        Log = Output
-                    }
-                }
-                Installed = UntetherInstalled()
-            } label: {
-                Text("\(Installed ? "Uninstall" : "Install") Untether")
-            }
-            .disabled(!isJailbroken())
-            if Installed {
+            Section(footer: Text("Created by @AppInstalleriOS")) {
                 Button {
-                    SetUntether(!FileManager.default.fileExists(atPath: UntetherEnabledPath))
+                    if UntetherInstalled() {
+                        let Output = String(describing: spawnRoot(Bundle.main.executablePath ?? "", ["uninstall"]).dropLast())
+                        if !Output.isEmpty {
+                            Log = Output
+                        }
+                    } else {
+                        let Output = String(describing: spawnRoot(Bundle.main.executablePath ?? "", ["install"]).dropLast())
+                        if !Output.isEmpty {
+                            Log = Output
+                        }
+                    }
+                    Installed = UntetherInstalled()
                 } label: {
-                    Text("\(FileManager.default.fileExists(atPath: UntetherEnabledPath) ? "Disable" : "Enable") Untether")
+                    Text("\(Installed ? "Uninstall" : "Install") Untether")
+                }
+                .disabled(!isJailbroken())
+                if Installed {
+                    Button {
+                        SetUntether(!FileManager.default.fileExists(atPath: UntetherEnabledPath))
+                        Enabled = FileManager.default.fileExists(atPath: UntetherEnabledPath)
+                    } label: {
+                        Text("\(Enabled ? "Disable" : "Enable") Untether")
+                    }
                 }
             }
         }
