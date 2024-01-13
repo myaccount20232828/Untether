@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ContentView: View {
     @State var Log = ""
+    @State var Installed = UntetherInstalled()
     var body: some View {
         Form {
             if !Log.isEmpty {
@@ -16,14 +17,28 @@ struct ContentView: View {
                         Log = Output
                     }
                 } else {
-                    Log = spawnRoot(Bundle.main.executablePath ?? "", ["install"])
+                    let Output = String(describing: spawnRoot(Bundle.main.executablePath ?? "", ["install"]).dropLast())
+                    if !Output.isEmpty {
+                        Log = Output
+                    }
                 }
+                Installed = UntetherInstalled()
             } label: {
-                Text("\(UntetherInstalled() ? "Uninstall" : "Install") Untether")
+                Text("\(Installed ? "Uninstall" : "Install") Untether")
             }
             .disabled(!isJailbroken())
+            if Installed {
+                Button {
+                } label: {
+                    Text("\(UntetherEnabled() ? "Disable" : "Enable") Untether")
+                }
+            }
         }
     }
+}
+
+func UntetherEnabled() -> Bool {
+    return FileManager.default.fileExists(atPath: "/var/mobile/.untether")
 }
 
 func UntetherInstalled() -> Bool {
