@@ -29,30 +29,27 @@ struct ContentView: View {
             .disabled(!isJailbroken())
             if Installed {
                 Button {
-                    SetUntether(!UntetherEnabled())
+                    SetUntether(!FileManager.default.fileExists(atPath: UntetherEnabledPath))
                 } label: {
-                    Text("\(UntetherEnabled() ? "Disable" : "Enable") Untether")
+                    Text("\(FileManager.default.fileExists(atPath: UntetherEnabledPath) ? "Disable" : "Enable") Untether")
                 }
             }
         }
     }
 }
 
+let UntetherEnabledPath = "/var/mobile/.untether"
+
 func SetUntether(_ Enabled: Bool) {
     do {
-        let FilePath = "/var/mobile/.untether"
         if Enabled {
-            FileManager.default.createFile(atPath: FilePath, contents: Data())
+            FileManager.default.createFile(atPath: UntetherEnabledPath, contents: Data())
         } else {
-            try FileManager.default.removeItem(atPath: FilePath)
+            try FileManager.default.removeItem(atPath: UntetherEnabledPath)
         }
     } catch {
         print(error)
     }
-}
-
-func UntetherEnabled() -> Bool {
-    return FileManager.default.fileExists(atPath: "/var/mobile/.untether")
 }
 
 func UntetherInstalled() -> Bool {
